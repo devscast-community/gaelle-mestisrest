@@ -4,7 +4,11 @@ namespace App\Entity;
 
 use App\Repository\DishRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: DishRepository::class)]
 class Dish
 {
@@ -22,8 +26,11 @@ class Dish
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_url = null;
+
+    #[Vich\UploadableField(mapping: 'dish', fileNameProperty: 'image_url')]
+    private ?File $image_file = null;
 
     #[ORM\ManyToOne(inversedBy: 'dishes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,6 +38,17 @@ class Dish
 
     #[ORM\Column(length: 255)]
     private ?string $speciality = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updated_at = null;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +123,44 @@ class Dish
     public function setSpeciality(string $speciality): self
     {
         $this->speciality = $speciality;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->image_file;
+    }
+
+    public function setImageFile(?File $thumbnail_file): self
+    {
+        $this->image_file = $thumbnail_file;
+        if ($this->image_file instanceof UploadedFile) {
+            $this->updated_at = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

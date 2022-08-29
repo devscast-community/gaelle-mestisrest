@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Nos recettes' %}
+
+{% block body %}
+    <h1>Nos recettes</h1>
+    <div class="row">
+        {% for recette in recettes %}
+            <div class="col-sm-6">
+                <div class="card">
+                    <img class="card-img-top" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recette.name }}</h5>
+                        <p class="card-text">{{ recette.description }}</p>
+                        <a href="#" class="btn btn-primary">ajouter au panier</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/dish')]
+#[Route('admin/dish')]
 class DishController extends AbstractController
 {
-    #[Route('/', name: 'app_dish_index', methods: ['GET'])]
+    #[Route('', name: 'app_dish_index', methods: ['GET'])]
     public function index(DishRepository $dishRepository): Response
     {
         return $this->render('dish/index.html.twig', [

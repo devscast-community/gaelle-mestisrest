@@ -13,19 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 final class RecipeController extends AbstractController
 {
 
-    #[Route("/recettes", name: 'app_recette_index', methods: ['GET'])]
+    #[Route("/dishes", name: 'app_recette_index', methods: ['GET'])]
     public function index(DishRepository $repository): Response
     {
         return $this->render("dish/recettes.html.twig", [
-            'recettes' => $repository->findAll()
+            'dishes' => $repository->findAll()
         ]);
     }
 
-    #[Route("/recettes/{id}", name: 'app_recette_show', methods: ['GET'])]
+    #[Route("/dishes/{id}", name: 'app_recette_show', methods: ['GET'])]
     public function show(Dish $dish): Response
     {
         return $this->render("dish/recette.html.twig", [
-            'recette' => $dish
+            'dish' => $dish
         ]);
     }
 }

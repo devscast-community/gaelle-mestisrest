@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/command')]
+#[Route('/admin/command')]
 class CommandController extends AbstractController
 {
     #[Route('/', name: 'app_command_index', methods: ['GET'])]
@@ -18,25 +18,6 @@ class CommandController extends AbstractController
     {
         return $this->render('command/index.html.twig', [
             'commands' => $commandRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_command_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CommandRepository $commandRepository): Response
-    {
-        $command = new Command();
-        $form = $this->createForm(CommandType::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandRepository->add($command, true);
-
-            return $this->redirectToRoute('app_command_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('command/new.html.twig', [
-            'command' => $command,
-            'form' => $form,
         ]);
     }
 
@@ -64,15 +45,5 @@ class CommandController extends AbstractController
             'command' => $command,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/{id}', name: 'app_command_delete', methods: ['POST'])]
-    public function delete(Request $request, Command $command, CommandRepository $commandRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$command->getId(), $request->request->get('_token'))) {
-            $commandRepository->remove($command, true);
-        }
-
-        return $this->redirectToRoute('app_command_index', [], Response::HTTP_SEE_OTHER);
     }
 }

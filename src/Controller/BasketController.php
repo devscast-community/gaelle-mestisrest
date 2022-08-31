@@ -8,6 +8,7 @@ use App\Entity\Command;
 use App\Entity\Dish;
 use App\Entity\User;
 use App\Repository\CommandRepository;
+use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,27 +30,57 @@ final class BasketController extends AbstractController
     public function add(Request $request, Dish $dish): Response
     {
         $basket = $this->getBasket($request);
-        $basket[] = $dish;
-        $request->getSession()->set('_panier', $basket);
+        $index = $this->getItemIndex($basket, $dish);
+
+        if (!is_null($index)) {
+            $basket[$index]['quantity'] = $basket[$index]['quantity'] + 1;
+        } else {
+            $basket[] = ['dish' => $dish, 'quantity' => 1];
+        }
+
+        $request->getSession()->set('_basket', $basket);
         return $this->redirectToRoute('app_recette_index');
+    }
+
+    private function getItemIndex(array $basket, Dish $dish): ?int
+    {
+        /**
+         * @var int $key
+         * @var array<string, Dish|int> $value
+         */
+        foreach ($basket as $key => $value) {
+            if ($value['dish']->getId() === $dish->getId()) {
+                return $key;
+            }
+        }
+        return null;
     }
 
     #[Route("/remove/{id}", name: 'app_basket_remove', methods: ['POST'])]
     public function remove(Request $request, Dish $dish): Response
     {
         $basket = $this->getBasket($request);
-        $basket = array_filter($basket, function (Dish $d) use ($dish) {
-            return $d->getId() !== $dish->getId();
+        $basket = array_filter($basket, function (array $d) use ($dish) {
+            return $d['dish']->getId() !== $dish->getId();
         });
-        $request->getSession()->set('_panier', $basket);
-        return $this->redirectToRoute('app_recette_index');
+
+        $request->getSession()->set('_basket', $basket);
+        return $this->redirectToRoute('app_basket_index');
     }
 
-    public function validate(Request $request, CommandRepository $repository,): Response {
+    #[Route('/validate', name: 'app_basket_validate', methods: ['POST'])]
+    public function validate(
+        Request $request,
+        CommandRepository $repository,
+        DishRepository $dishRepository
+    ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $basket = $this->getBasket($request);
-        $quantity = count($basket);
+        $quantity = 0;
+        foreach ($basket as $item) {
+            $quantity += $item['quantity'];
+        }
 
         if ($quantity > 0) {
             $command = (new Command())
@@ -58,22 +89,21 @@ final class BasketController extends AbstractController
                 ->setCreatedAt(new \DateTimeImmutable());
 
             $prixTotal = 0;
-            /** @var Dish $dish */
-            foreach($basket as $dish) {
-                $prixTotal += $dish->getPrice();
-                $command->addDish($dish);
+            foreach($basket as $item) {
+                $command->addDish($dishRepository->find($item['dish']->getId()));
+                $prixTotal += ($item['dish']->getPrice() * $item['quantity']);
             }
 
             $command->setTotalPrice($prixTotal);
             $repository->add($command, true);
-            $request->getSession()->set('_panier', []);
+            $request->getSession()->set('_basket', []);
         }
 
-        return $this->redirectToRoute('app_index');
+        return $this->redirectToRoute('app_profile_command_index');
     }
 
     private function getBasket(Request $request): array
     {
-        return $request->getSession()->get('_panier', []);
+        return $request->getSession()->get('_basket', []);
     }
 }

@@ -1,10 +1,46 @@
 {% extends 'base.html.twig' %}
+{% block title "Mon panier" %}
 
 {% block body %}
+    <h1>Mon panier</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Plat</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Prix total</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in basket %}
+                        <tr>
+                            <th scope="row">{{ item.dish.id }}</th>
+                            <td>{{ item.dish.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.dish.price }} $</td>
+                            <td>{{ item.quantity * item.dish.price }} $</td>
+                            <td>
+                                <form method="post" action="{{ path('app_basket_remove', {id: item.dish.id}) }}">
+                                    <button type="submit" class="btn btn-danger">retirer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
+                {% if basket | length > 0 %}
+                    <form method="post" action="{{ path('app_basket_validate') }}">
+                        <button class="btn btn-primary">passer la commande</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
-{% block title %}
-
-{% endblock %}
-

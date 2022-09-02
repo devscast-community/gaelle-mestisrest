@@ -6,9 +6,10 @@ use App\Repository\DishRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
-#[Vich\Uploadable]
+#[Uploadable]
 #[ORM\Entity(repositoryClass: DishRepository::class)]
 class Dish
 {
@@ -29,7 +30,7 @@ class Dish
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_url = null;
 
-    #[Vich\UploadableField(mapping: 'dish', fileNameProperty: 'image_url')]
+    #[UploadableField('dish', 'image_url')]
     private ?File $image_file = null;
 
     #[ORM\ManyToOne(inversedBy: 'dishes')]

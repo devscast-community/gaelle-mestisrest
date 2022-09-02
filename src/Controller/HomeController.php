@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Data\ContactData;
 use App\Form\ContactType;
+use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
     #[Route("/", name: "app_index", methods: ['GET'])]
-    public function index(): Response
+    public function index(DishRepository $repository): Response
     {
-        return $this->render("home.html.twig");
+        $dishes = $repository->findBy([], limit: 4);
+        return $this->render("home.html.twig", [
+            'dishes' => $dishes
+        ]);
     }
 
     #[Route("/about", name: "app_about", methods: ["GET"])]

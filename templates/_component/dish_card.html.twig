@@ -1,0 +1,16 @@
+<a href="{{ path('app_recette_show', {id: dish.id}) }}" class="collection-item w-inline-block">
+    <div style="background-image:url({{ vich_uploader_asset(dish, 'image_file') }})" class="item-image">
+        <div class="new-text">{{ dish.speciality }}</div>
+    </div>
+    <div class="item-content">
+        <div class="top-content">
+            <div class="medium-paragraph">{{ dish.name }}</div>
+            <p class="xs-paragraph">{{ dish.description }}</p></div>
+        <div class="bottom-content">
+            <div class="inline-text">
+                <div class="medium-paragraph padding-right">$</div>
+                <div class="medium-paragraph">{{ dish.price }}</div>
+            </div>
+        </div>
+    </div>
+</a>

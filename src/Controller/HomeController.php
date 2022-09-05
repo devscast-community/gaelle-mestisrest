@@ -20,7 +20,7 @@ final class HomeController extends AbstractController
     #[Route("/", name: "app_index", methods: ['GET'])]
     public function index(DishRepository $repository): Response
     {
-        $dishes = $repository->findBy([], limit: 4);
+        $dishes = $repository->findBy([], orderBy: ['id' => 'DESC'], limit: 4);
         return $this->render("home.html.twig", [
             'dishes' => $dishes
         ]);

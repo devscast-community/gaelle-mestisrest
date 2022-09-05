@@ -1,23 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Nos recettes' %}
-
 {% block body %}
-    <h1>Nos recettes</h1>
-    <div class="row">
-        {% for dish in dishes %}
-            <div class="col-sm-6">
-                <div class="card">
-                    <img class="card-img-top" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ dish.name }}</h5>
-                        <p class="card-text">{{ dish.description }}</p>
-                        <form method="post" action="{{ path('app_basket_add', {id: dish.id}) }}">
-                            <button type="submit" class="btn btn-primary">ajouter au panier</button>
-                        </form>
+    <div class="section wf-section">
+        <div class="content-wrapper top-margin">
+            <div class="breadcrumbs"><a href="{{ path('app_index') }}" class="link">Home</a>
+                <div class="slash">/</div>
+                <div class="breadcrumb-text">Nos plats et tarifs</div>
+            </div>
+        </div>
+        <h1 class="h2 top-margin">Nos plats et tarifs</h1>
+        <div class="content-wrapper">
+            <div data-duration-in="300" data-duration-out="100" data-w-id="a2bf0c1f-f52f-aa88-21e4-e7fa505c5bf4" style="opacity:0" data-current="Tab 2" data-easing="ease" class="tabs w-tabs">
+                <div class="tabs-menu w-tab-menu">
+                    <a data-w-tab="Tab 2" class="tab-link w-inline-block w-tab-link w--current">
+                        <div>Dishes</div>
+                    </a>
+                </div>
+                <div class="tabs-content w-tab-content">
+                    <div data-w-tab="Tab 2" class="w-tab-pane w--tab-active">
+                        <div class="w-dyn-list">
+                            <div role="list" class="collection-list w-dyn-items">
+                                {% for dish in dishes %}
+                                    <div role="listitem" class="w-dyn-item">
+                                        {% include '_component/dish_card.html.twig' with {dish: dish} %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
 {% endblock %}

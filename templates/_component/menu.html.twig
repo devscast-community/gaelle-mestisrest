@@ -12,6 +12,32 @@
             <a href="{{ path('app_contact') }}" class="nav-link w-inline-block">
                 <div>Contact</div>
             </a>
+
+            {% if app.user %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('app_dish_index') }}" class="nav-link w-inline-block">
+                        <div>Administration</div>
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_basket_index') }}" class="nav-link w-inline-block">
+                        <div>Mon panier ({{ app.request.session.get('_basket', []) | length }})</div>
+                    </a>
+                    <a href="{{ path('app_profile_command_index') }}" class="nav-link w-inline-block">
+                        <div>Mes commandes</div>
+                    </a>
+                {% endif %}
+
+                <a href="{{ path('app_logout') }}" class="nav-link w-inline-block">
+                    <div>Déconnexion</div>
+                </a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="nav-link w-inline-block">
+                    <div>Connexion</div>
+                </a>
+                <a href="{{ path('app_register') }}" class="nav-link w-inline-block">
+                    <div>Inscription</div>
+                </a>
+            {% endif %}
         </div>
         <div data-w-id="49010214-0a01-0fe6-c11f-c58640da0ce1" class="menu-button">
             <div class="top-burger-line"></div>

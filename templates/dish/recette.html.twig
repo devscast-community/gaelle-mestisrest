@@ -1,10 +1,49 @@
 {% extends 'base.html.twig' %}
+{% block title "Plat : #{dish.name}" %}
 
 {% block body %}
+    <div id="Menu" class="section wf-section">
+        <div class="content-wrapper top-margin">
+            <div class="breadcrumbs"><a href="{{ path('app_index') }}" class="link">Home</a>
+                <div class="slash">/</div>
+                <a href="{{ path('app_recette_index') }}" class="link">Dishes</a>
+                <div class="slash">/</div>
+                <div class="breadcrumb-text">{{ dish.name }}</div>
+            </div>
+        </div>
 
+        <div class="content-wrapper vertical-align">
+            <div class="image-item-page">
+            <img src="{{ vich_uploader_asset(dish, 'image_file') }}" loading="lazy" alt="{{ dish.name }}" class="image"/></div>
+            <div class="grid-content-item">
+                <h4 class="h4 align-left">{{ dish.name }}</h4>
+                <div class="inline-text">
+                    <div class="vegan-label-item"></div>
+                    <div class="spicy-label-item w-condition-invisible"></div>
+                </div>
+                <p>
+                    {{ dish.description | nl2br }}
+                </p>
+                <div class="grid-details">
+                    <div class="medium-paragraph">Spécialité: </div>
+                    <div class="inline-text">
+                        <img src="https://flagcdn.com/16x12/{{ dish.speciality | lower }}.png" alt="{{ dish.speciality }}">
+                    </div>
+                    <div class="medium-paragraph">Price: </div>
+                    <div class="inline-text">
+                        <div>$</div>
+                        <div>{{ dish.price }}</div>
+                    </div>
+                </div>
+
+                <form action="{{ path('app_basket_add', {id: dish.id}) }}" method="post">
+                    <button class="button-primary btn-sm w-inline-block" style="padding: 8px 8px" title="ajouter au panier">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
-{% block title %}
-
-{% endblock %}
-

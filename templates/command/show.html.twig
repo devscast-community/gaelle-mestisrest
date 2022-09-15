@@ -3,34 +3,39 @@
 {% block title %}Command{% endblock %}
 
 {% block body %}
-    <h1>Command</h1>
+    <div class="section wf-section">
+        {% include '_component/menu_admin.html.twig' %}
+        <h1 class="h2 top-margin app-title">Commande #{{ command.id }}</h1>
+        <div class="content-wrapper">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ command.id }}</td>
+                </tr>
+                <tr>
+                    <th>Created_at</th>
+                    <td>{{ command.createdAt ? command.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Total_price</th>
+                    <td>{{ command.totalPrice }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ command.status }}</td>
+                </tr>
+                <tr>
+                    <th>Updated_at</th>
+                    <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content-wrapper">
+            <a href="{{ path('app_command_index') }}">back to list</a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ command.id }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ command.createdAt ? command.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Total_price</th>
-                <td>{{ command.totalPrice }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ command.status }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_command_index') }}">back to list</a>
-
-    <a href="{{ path('app_command_edit', {'id': command.id}) }}">edit</a>
+            <a href="{{ path('app_command_edit', {'id': command.id}) }}">edit</a>
+        </div>
+    </div>
 {% endblock %}

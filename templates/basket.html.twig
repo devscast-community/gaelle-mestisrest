@@ -31,8 +31,8 @@
                                     <th scope="row">{{ item.dish.id }}</th>
                                     <td>{{ item.dish.name }}</td>
                                     <td>{{ item.quantity }}</td>
-                                    <td>{{ item.dish.price }} $</td>
-                                    <td>{{ item.quantity * item.dish.price }} $</td>
+                                    <td>{{ item.dish.price }} €</td>
+                                    <td>{{ item.quantity * item.dish.price }} €</td>
                                     <td>
                                         <form method="post" action="{{ path('app_basket_remove', {id: item.dish.id}) }}">
                                             <button type="submit" class="btn btn-danger">retirer</button>

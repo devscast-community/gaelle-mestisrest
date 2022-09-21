@@ -27,8 +27,8 @@
                         <td>{{ command.status }}</td>
                         <td>{{ command.updatedAt ? command.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
-                            <a href="{{ path('app_command_show', {'id': command.id}) }}">show</a>
-                            <a href="{{ path('app_command_edit', {'id': command.id}) }}">edit</a>
+                            <a href="{{ path('app_command_show', {'id': command.id}) }}">détails</a>
+                            <a href="{{ path('app_command_edit', {'id': command.id}) }}">éditer</a>
                         </td>
                     </tr>
                 {% else %}

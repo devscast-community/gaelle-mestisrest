@@ -33,8 +33,8 @@
                             <img src="https://flagcdn.com/16x12/{{ dish.speciality | lower }}.png" alt="{{ dish.speciality }}">
                         </td>
                         <td>
-                            <a href="{{ path('app_dish_show', {'id': dish.id}) }}">show</a>
-                            <a href="{{ path('app_dish_edit', {'id': dish.id}) }}">edit</a>
+                            <a href="{{ path('app_dish_show', {'id': dish.id}) }}">détails</a>
+                            <a href="{{ path('app_dish_edit', {'id': dish.id}) }}">éditer</a>
                         </td>
                     </tr>
                 {% else %}
@@ -46,7 +46,7 @@
             </table>
         </div>
         <div class="content-wrapper">
-            <a href="{{ path('app_dish_new') }}">Create new</a>
+            <a href="{{ path('app_dish_new') }}">Ajouter</a>
         </div>
     </div>
 {% endblock %}

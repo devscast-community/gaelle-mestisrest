@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Catégorie index{% endblock %}
 
 {% block body %}
     <div class="section wf-section">
@@ -23,8 +23,8 @@
                         <td>{{ category.name }}</td>
                         <td>{{ category.description }}</td>
                         <td>
-                            <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                            <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
+                            <a href="{{ path('app_category_show', {'id': category.id}) }}">détails</a>
+                            <a href="{{ path('app_category_edit', {'id': category.id}) }}">éditer</a>
                         </td>
                     </tr>
                 {% else %}
@@ -36,7 +36,7 @@
             </table>
         </div>
         <div class="content-wrapper">
-            <a href="{{ path('app_category_new') }}">Create new</a>
+            <a href="{{ path('app_category_new') }}">Ajouter</a>
         </div>
     </div>
 {% endblock %}

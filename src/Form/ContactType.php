@@ -25,7 +25,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ContactData::class
+            'data_class' => ContactData::class // une fois le formulaire soumis les informations seront dans ContactData
         ]);
     }
 }

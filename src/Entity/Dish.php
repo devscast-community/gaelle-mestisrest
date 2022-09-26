@@ -30,6 +30,8 @@ class Dish
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_url = null;
 
+    // utilisation de vich uploader bundle pour l'upload de fichier
+    // aussi la configuration se trouve dans config/packages/vich_uploader.yaml
     #[UploadableField('dish', 'image_url')]
     private ?File $image_file = null;
 

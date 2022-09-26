@@ -54,6 +54,7 @@
                     <div data-w-tab="Tab 2" class="w-tab-pane w--tab-active">
                         <div class="w-dyn-list">
                             <div role="list" class="collection-list w-dyn-items">
+                                {# on parcours les plats pour les afficher  #}
                                 {% for dish in dishes %}
                                     <div role="listitem" class="w-dyn-item">
                                         {% include '_component/dish_card.html.twig' with {dish: dish} %}

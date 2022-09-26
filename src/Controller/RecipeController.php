@@ -17,13 +17,17 @@ final class RecipeController extends AbstractController
     public function index(DishRepository $repository): Response
     {
         return $this->render("dish/recettes.html.twig", [
-            'dishes' => $repository->findAll()
+            'dishes' => $repository->findAll() // findAll permet de récupérer toutes les informations
         ]);
     }
 
     #[Route("/dishes/{id}", name: 'app_recette_show', methods: ['GET'])]
     public function show(Dish $dish): Response
     {
+        // Symfony va faire une correspondence entre {id} et le type Dish (@paramConverter)
+        // si il existe une entity Dish avec un id précisé dans l'URL on affiche les informations
+        // sinon on a une erreur 404
+
         return $this->render("dish/recette.html.twig", [
             'dish' => $dish
         ]);

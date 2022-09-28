@@ -31,6 +31,7 @@ final class HomeController extends AbstractController
     #[Route("/about", name: "app_about", methods: ["GET"])]
     public function about(): Response
     {
+        // affichage de la page
         return $this->render("about.html.twig");
     }
 
@@ -51,6 +52,7 @@ final class HomeController extends AbstractController
                 ->text($data->message) // contenu
                 ->to(new Address($_ENV['APP_CONTACT_EMAIL'], "Metirest"));  // à qui ?
 
+            // si jamais on a une exception on l'a capture et on envoie le message à l'utilisateur
             try {
                 $mailer->send($email);
                 $this->addFlash("success", "Nous avons bien reçu votre message !");
@@ -58,9 +60,11 @@ final class HomeController extends AbstractController
                 $this->addFlash("error", "Désolé une erreur est survenue lors du contact !");
             }
 
+            // redirection vers la page d'accueil
             return $this->redirectToRoute("app_index");
         }
 
+        // affichage de la page et du formulaire
         return $this->renderForm(
             view: "contact.html.twig",
             parameters: [

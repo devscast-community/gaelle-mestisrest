@@ -30,12 +30,14 @@ final class UserCommandController extends AbstractController
     #[Route('/{id}', name: 'app_profile_command_delete', methods: ['POST'])]
     public function delete(Request $request, Command $command, CommandRepository $commandRepository): Response
     {
+        // on peut supprimer une commande uniquement si elle est encore en attente (pending)
         if ($command->getStatus() === "pending") {
             if ($this->isCsrfTokenValid('delete'.$command->getId(), $request->request->get('_token'))) {
                 $commandRepository->remove($command, true);
             }
         }
 
+        //  redirection vers le profile
         return $this->redirectToRoute('app_profile_command_index', [], Response::HTTP_SEE_OTHER);
     }
 }

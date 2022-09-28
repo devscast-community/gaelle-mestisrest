@@ -17,13 +17,19 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $user = new User(); // un object non rempli
+        $form = $this->createForm(RegistrationFormType::class, $user)
+            ->handleRequest($request);
+
+        // on passe en get la variable admin pour pouvoir créer un administrateur
         $isAdmin = $request->query->getInt('admin', 0);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // attribution du role admin si jamais la variable admin == 1
             $user->setRoles([$isAdmin === 1 ? "ROLE_ADMIN" : "ROLE_USER"]);
+
+            // Hashage du mot de passe pour plus de sécurité
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -31,13 +37,15 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // enregistrement dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
+            // redirection vers la page de connexion
             return $this->redirectToRoute('app_login');
         }
 
+        // affichage de la vue
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
